@@ -27,6 +27,7 @@ Route::group(['middleware' => ['apiJwt']], function () {
     
     
     Route::get('users','UserController@index');
+    Route::get('users/whouser/{email}','UserController@whouser');
 });
 
 
