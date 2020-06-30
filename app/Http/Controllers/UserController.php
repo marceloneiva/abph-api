@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 USE Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\User;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -20,7 +22,7 @@ class UserController extends Controller
     }
 
 
-    //Retornar id do user para continuacao
+    //Retornar o tipo do user de acordo com email
     public function whouser($email) {
       
         //SELECT agentes.cod_sip, agentes.id_tipoagent FROM agentes LEFT JOIN users ON agentes.id_user = users.id where email = 'marceloneiva@yahoo.com.br'
@@ -34,6 +36,17 @@ class UserController extends Controller
         //return ['id' => $users->id];
     }
 
+     //Retornar os dados do user de acordo com id
+     public function iduser($id) {
+      
+        //SELECT agentes.cod_sip, agentes.id_tipoagent FROM agentes LEFT JOIN users ON agentes.id_user = users.id where email = 'marceloneiva@yahoo.com.br'
+        //$users = User::where('email',$email)->get();
+        $users = DB::table('users')
+                ->where('users.id',$id)
+                ->first(); 
+        return response()->json($users);
+        //return ['id' => $users->id];
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -43,9 +56,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->all();
 
+        $validator = Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'password' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return response(['error' => $validator->errors(), 'Validation Error']);
+        }
+
+        $user = User::create($data);
+
+        return response([ 'message' => 'Created successfully'], 200);
+    }
+    
     /**
      * Display the specified resource.
      *
@@ -66,7 +93,27 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $users = User::find($id);
+         
+        if(!empty($request->name)){
+            $users->name = $request->name;
+        } else {
+            return response([ 'message' => 'Informe o seu Nome'], 401);
+        }
+        if(filter_var($request->email, FILTER_VALIDATE_EMAIL)){
+            $users->email    = $request->email;
+        } else {
+            return response([ 'message' => 'Esse Email é invalido!'], 401);
+        }
+        
+        if(!empty($request->password)){
+            $users->password = hash::make($request->password);
+        } else {
+            return response([ 'message' => 'Informe a sua senha!'], 401);
+        }
+        
+        $users->save();
+        return response([ 'message' => 'Updated successfully'], 200);
     }
 
     /**
@@ -77,6 +124,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $users = User::find($id);
+        $users->delete();
+        return response([ 'message' => 'Deleted successfully'], 200);
+
     }
 }
