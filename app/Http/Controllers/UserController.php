@@ -36,18 +36,8 @@ class UserController extends Controller
         //return ['id' => $users->id];
     }
 
-     //Retornar os dados do user de acordo com id
-     public function iduser($id) {
-      
-        //SELECT agentes.cod_sip, agentes.id_tipoagent FROM agentes LEFT JOIN users ON agentes.id_user = users.id where email = 'marceloneiva@yahoo.com.br'
-        //$users = User::where('email',$email)->get();
-        $users = DB::table('users')
-                ->where('users.id',$id)
-                ->first(); 
-        return response()->json($users);
-        //return ['id' => $users->id];
-    }
-
+   
+     
     /**
      * Store a newly created resource in storage.
      *
@@ -81,7 +71,12 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        //Retornar os dados do user de acordo com id
+        $users = DB::table('users')
+                ->where('users.id',$id)
+                ->first(); 
+        return response()->json($users);
+        
     }
 
     /**

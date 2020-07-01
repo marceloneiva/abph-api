@@ -25,13 +25,22 @@ Route::group(['middleware' => ['apiJwt']], function () {
     Route::post('auth/refresh','AuthController@refresh');
     Route::get('auth/me','AuthController@me');
     
-    //Api de manutencao de usuarios
+    //Rotas de manutencao de usuarios
     Route::get('users','UserController@index');
     Route::get('users/whouser/{email}','UserController@whouser');
-    Route::post('users/iduser/{id}','UserController@iduser');
+    Route::post('users/iduser/{id}','UserController@show');
     Route::post('users/updateuser/{id}','UserController@update');
     Route::post('users/newuser','UserController@store');
     Route::post('users/deleteuser/{id}','UserController@destroy');
+
+    //Rotas de manutencao de Campanhas
+    Route::get('campanhas','CampanhasController@index');
+    Route::post('campanhas/idcampanha/{id}','CampanhasController@show');
+    Route::post('campanhas/updatecampanha/{id}','CampanhasController@update');
+    Route::post('campanhas/newcampanha','CampanhasController@store');
+    Route::post('campanhas/deletecampanha/{id}','CampanhasController@destroy');
+
+
 });
 
 
