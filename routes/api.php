@@ -40,6 +40,13 @@ Route::group(['middleware' => ['apiJwt']], function () {
     Route::post('campanhas/newcampanha','CampanhasController@store');
     Route::post('campanhas/deletecampanha/{id}','CampanhasController@destroy');
 
+     //Rotas de manutencao de Distritos e Clubes
+     Route::get('distrclubworlds','DistrclubworldsController@index');
+     Route::post('distrclubworlds/iddistrclubworld/{id}','DistrclubworldsController@show');
+     Route::post('distrclubworlds/updatedistrclubworld/{id}','DistrclubworldsController@update');
+     Route::post('distrclubworlds/newdistrclubworld','DistrclubworldsController@store');
+     Route::post('distrclubworlds/deletedistrclubworld/{id}','DistrclubworldsController@destroy');
+
 
 });
 
