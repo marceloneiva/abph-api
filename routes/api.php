@@ -47,6 +47,12 @@ Route::group(['middleware' => ['apiJwt']], function () {
      Route::post('distrclubworlds/newdistrclubworld','DistrclubworldsController@store');
      Route::post('distrclubworlds/deletedistrclubworld/{id}','DistrclubworldsController@destroy');
 
+     //Rotas de manutencao de Agentes
+     Route::get('agentes','AgentesController@index');
+     Route::post('agentes/idagente/{id}','AgentesController@show');
+     Route::post('agentes/updateagente/{id}','AgentesController@update');
+     Route::post('agentes/newagente','AgentesController@store');
+     Route::post('agentes/deleteagente/{id}','AgentesController@destroy');
 
 });
 
