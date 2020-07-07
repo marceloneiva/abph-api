@@ -57,6 +57,9 @@ Route::group(['middleware' => ['apiJwt']], function () {
      //Rotinas da agenda de dados
      Route::get('agendas','AgendasController@index');
      Route::post('agendas/idagenda/{id}','AgendasController@show');
+     Route::post('agendas/updateagenda/{id}','AgendasController@update');
+     Route::post('agendas/newagenda','AgendasController@store');
+     Route::post('agendas/deleteagenda/{id}','AgendasController@destroy');
 
 });
 
