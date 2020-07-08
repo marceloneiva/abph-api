@@ -47,6 +47,7 @@ Route::group(['middleware' => ['apiJwt']], function () {
      Route::post('distrclubworlds/newdistrclubworld','DistrclubworldsController@store');
      Route::post('distrclubworlds/deletedistrclubworld/{id}','DistrclubworldsController@destroy');
 
+
      //Rotas de manutencao de Agentes
      Route::get('agentes','AgentesController@index');
      Route::post('agentes/idagente/{id}','AgentesController@show');
@@ -60,6 +61,11 @@ Route::group(['middleware' => ['apiJwt']], function () {
      Route::post('agendas/updateagenda/{id}','AgendasController@update');
      Route::post('agendas/newagenda','AgendasController@store');
      Route::post('agendas/deleteagenda/{id}','AgendasController@destroy');
+
+     Route::get('continentes','ContinentesController@index');
+     Route::get('paises/{cod_cont}','PaisesController@index_paises');
+     Route::get('distrclubworlds/distritos','DistrclubworldsController@distritos');
+     Route::get('clubes/{cod_distrito}','DistrclubworldsController@clubes');
 
 });
 

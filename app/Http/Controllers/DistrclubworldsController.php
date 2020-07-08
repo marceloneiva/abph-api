@@ -20,6 +20,25 @@ class DistrclubworldsController extends Controller
         return response()->json($distrclub);
     }
 
+    public function distritos()
+    {
+        $distrclub = DB::table('distrclubworlds')
+        ->select('distrclubworlds.id_distrito')
+        ->distinct('distrclubworlds.id_distrito')
+        ->orderBy('distrclubworlds.id_distrito', 'asc')
+        ->get();
+        return response()->json($distrclub);
+    }
+    public function clubes($cod_distrito)
+    {
+        $distrclub = DB::table('distrclubworlds')
+        ->select('distrclubworlds.id','distrclubworlds.dsc_clube')
+        ->where('distrclubworlds.id_distrito',$cod_distrito)
+        ->orderBy('distrclubworlds.dsc_clube', 'asc')
+        ->get();
+        return response()->json($distrclub);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
