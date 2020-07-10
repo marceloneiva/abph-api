@@ -61,7 +61,6 @@ class AgendasController extends Controller
             'email' => 'required|max:255',
             'nome' => 'required|max:255', 
             'data_agendada' => 'required',
-            'retornado' => 'required',
             'id_cont' => 'required',
             'id_pais' => 'required',
             'id_distclub' => 'required',
@@ -88,6 +87,12 @@ class AgendasController extends Controller
     public function show($id)
     {
         $agendas = DB::table('agendas')
+        ->select('agendas.id','agendas.telefone','agendas.email','agendas.nome','agendas.id_campanha','campanhas.dsc_campanha','agendas.data_agendada','agendas.id_cont','continentes.dsc_cont','agendas.id_pais','pais.local_name','agendas.id_distclub','agendas.id_distrito','distrclubworlds.id_clube','distrclubworlds.dsc_clube','agendas.id_agente','users.name')
+        ->leftjoin('campanhas as campanhas', 'agendas.id_campanha', '=', 'campanhas.id')
+        ->leftjoin('continentes as continentes', 'agendas.id_cont', '=', 'continentes.id')
+        ->leftjoin('pais as pais', 'agendas.id_pais', '=', 'pais.id')
+        ->leftjoin('distrclubworlds as distrclubworlds', 'agendas.id_distclub', '=', 'distrclubworlds.id')
+        ->leftjoin('users as users', 'agendas.id_agente', '=', 'users.id')
         ->where('agendas.id',$id)
         ->first(); 
         return response()->json($agendas);
@@ -141,11 +146,7 @@ class AgendasController extends Controller
         } else {
             return response([ 'message' => 'Informe a data'], 401);
         }
-        if(!empty($request->retornado)){
-            $agendas->retornado = $request->retornado;
-        } else {
-            return response([ 'message' => 'Informe o retorno'], 401);
-        }
+        
         if(!empty($request->id_cont)){
             $agendas->id_cont = $request->id_cont;
         } else {
